@@ -42,14 +42,18 @@
                                         <p class="text-xs text-gray-500 dark:text-gray-400">{{ $order->created_at->format('d M Y') }}</p>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <div class="flex items-center gap-3">
-                                            @if($order->items->first() && $order->items->first()->product)
-                                                <img src="{{ $order->items->first()->product->image ? asset('storage/'.$order->items->first()->product->image) : 'https://via.placeholder.com/40' }}" class="w-10 h-10 rounded-lg object-cover">
-                                                <div>
-                                                    <p class="font-medium text-gray-900 dark:text-white">{{ $order->items->first()->product->name }}</p>
-                                                    <p class="text-sm text-gray-500">x{{ $order->items->first()->quantity }}</p>
-                                                </div>
-                                            @endif
+                                        <div class="flex flex-col gap-3">
+                                            @foreach($order->items as $item)
+                                                @if($item->product)
+                                                    <div class="flex items-center gap-3">
+                                                        <img src="{{ $item->product->image ? asset('storage/'.$item->product->image) : 'https://via.placeholder.com/40' }}" class="w-10 h-10 rounded-lg object-cover">
+                                                        <div>
+                                                            <p class="font-medium text-gray-900 dark:text-white">{{ $item->product->name }}</p>
+                                                            <p class="text-sm text-gray-500">x{{ $item->quantity }}</p>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endforeach
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
